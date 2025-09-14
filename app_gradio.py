@@ -26,7 +26,7 @@ _gc_utils.get_type = _safe_get_type
 _gc_utils._json_schema_to_python_type = _safe_json_to_py
 # --- end patch ---
 
-CKPT = "checkpoints/model.pt"  # путь к лучшему чекпоинту
+CKPT = "model.pt"  # путь к лучшему чекпоинту
 
 def load_model(ckpt_path):
     ckpt = torch.load(ckpt_path, map_location="cpu")
@@ -73,6 +73,7 @@ with gr.Blocks() as demo:
 
 if __name__ == "__main__":
     demo.launch(show_api=False)
+
 
 
 
