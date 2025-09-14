@@ -1,0 +1,39 @@
+seed: 42
+
+data:
+  # CSV после merge_and_split.py
+  train_csv: data/labels_train.csv
+  val_csv:   data/labels_val.csv
+
+  # Классы (можно сузить до ["clean", "dirty"])
+  cleanliness_classes: ["clean", "slightly_dirty", "very_dirty"]
+  damage_classes: ["intact", "damaged"]
+
+  img_size: 384
+  num_workers: 4
+  augment:
+    strong: true   # усиленные аугментации (свет/дождь/пыль)
+    hflip_p: 0.5
+
+model:
+  backbone: "tf_efficientnet_b0_ns"  # можно "resnet50"
+  pretrained: true
+  drop_rate: 0.2
+
+train:
+  batch_size: 16
+  epochs: 20
+  lr: 3.0e-4
+  weight_decay: 1.0e-4
+  scheduler: "cosine"        # cosine / none
+  warmup_epochs: 1
+  grad_accum: 1
+  mixed_precision: true
+  label_smoothing: 0.05
+  loss_weights:
+    cleanliness: 1.0
+    damage: 1.0
+
+eval:
+  threshold: 0.5
+  save_dir: "artifacts"      # чекпойнты, метрики, label_map.json
